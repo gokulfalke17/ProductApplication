@@ -8,7 +8,6 @@
 </head>
 <body class="bg-light">
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="/">Product Management</a>
@@ -32,7 +31,7 @@
     </div>
 </nav>
 
-<!-- Product List Section -->
+
 <div class="container my-5">
     <h1 class="text-center text-primary mb-4">Product List</h1>
 
@@ -53,7 +52,7 @@
                 <td th:text="${product.name}"></td>
                 <td th:text="${product.type}"></td>
                 <td>
-                    <a th:href="@{/products/update/{id}(id=${product.id})}" class="btn btn-warning btn-sm">Edit</a>
+                   <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-warning">Edit</a>
                     <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>

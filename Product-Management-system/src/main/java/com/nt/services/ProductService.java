@@ -1,6 +1,7 @@
 package com.nt.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,14 +37,18 @@ public class ProductService {
 	}
 
 	public ProductEntity getProductById(Long id) {
-
-	    return productRepository.findById(id).orElse(null);
+	    System.out.println("Fetching Product by ID: " + id);
+	    return productRepository.findById(id)
+	            .orElseThrow(() -> new RuntimeException("Product not found with ID: " + id));
 	}
 
-
-    public void updateProduct(ProductEntity product) {
-        productRepository.save(product);  
-    }
+	public void updateProduct(ProductEntity product) {
+	    System.out.println("Saving Product: " + product);
+		if (product.getId() == null || !productRepository.existsById(product.getId())) {
+			throw new RuntimeException("Cannot update product. Product not found.");
+		}
+		productRepository.save(product);
+	}
 
 	@Transactional
 	public void deleteProduct(Long id) {

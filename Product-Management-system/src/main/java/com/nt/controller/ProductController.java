@@ -53,7 +53,7 @@ public class ProductController {
 
 		productService.saveProduct(product, unitList);
 		return "redirect:/products/list";
-	}
+	} 
 
 	@GetMapping("/view/{id}")
 	public String getProductById(@PathVariable("id") Long id, Model model) {
@@ -66,34 +66,30 @@ public class ProductController {
 			return "error-page";
 		}
 	}
-
+	
+	
 	@GetMapping("/edit/{id}")
-	public String editProductForm(@PathVariable("id") Long id, Model model) {
-	    System.out.println("editProductForm called with id: " + id);
-	    
-
-	    ProductEntity product = productService.getProductById(id);
-	    
-	    if (product != null) {
-	        System.out.println("Product found: " + product.getName());
-	        model.addAttribute("product", product);
-	        return "edit";  
-	    } else {
-	        System.out.println("Product not found with ID: " + id);
-
-	        return "redirect:/products/list";
-	    }
+	public String editProduct(@PathVariable("id") Long id, Model model) {
+	    ProductEntity product = productService.getProductById(id); // Fetch the product
+	    model.addAttribute("product", product); // Add product to the model
+	    return "edit"; // Render the edit.html template
 	}
 
-
 	@PostMapping("/update/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductEntity product) {
-        product.setId(id); 
-        productService.updateProduct(product);  
-        return "redirect:/products/list";  
-    }
-
-
+	public String updateProduct(@PathVariable("id") Long id, @ModelAttribute("product") ProductEntity product) {
+	    System.out.println("Updating Product: " + product);
+	    try {
+	        System.out.println("Updating Product: " + product);
+	        productService.updateProduct(product);
+	        return "redirect:/products/list"; 
+	    } catch (RuntimeException e) {
+	        System.out.println("Error: " + e.getMessage());
+	        return "redirect:/products/error";
+	    }
+	}
+	
+	
+	
 	@GetMapping("/delete/{id}")
 	public String deleteProduct(@PathVariable("id") Long id) {
 		productService.deleteProduct(id);
